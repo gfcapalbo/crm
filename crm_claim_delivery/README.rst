@@ -17,7 +17,7 @@ A new wizard is created where the user will be able to create a claim
 associate it to a delivery order and specify which product is to be claimed.
 
 On the product form we will see all claims connected with that product
-with associated delivery and claim date.
+with associated delivery and claim date in the tab "Claims".
 
 
 

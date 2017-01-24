@@ -24,7 +24,7 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Inventory']" position="after">
-                    <page string="claims">
+                    <page string="Claims">
                         <group name="Claims" string="Claims" >
                             <field name="claim_ids"/>
                         </group>

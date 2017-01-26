@@ -13,12 +13,14 @@
                         attrs="{'invisible':[('delivery_id','=', False)]}"/>
                     <group col="2" colspan="2">
                         <group col="1" colspan="1">
-                            <field name="product_selection_ids" widget="many2many_list" 
+                            <field name="product_selection_ids" 
+                                widget="many2many_tags" 
+                                options="{'no_create_edit': True }"
                                 attrs="{'invisible':[('delivery_id','=', False)]}"/>
                         </group>
                         <group col="1" colspan="1">
                             <field name="product_selected_ids" widget="many2many_list" 
-                                attrs="{'invisible':[('delivery_id','=', False)]}"  />
+                                attrs="{'invisible':[('delivery_id','=', False)]}"  readonly="1" />
                         </group>
                     </group>
                 </field>

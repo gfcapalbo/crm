@@ -50,5 +50,5 @@ class CrmClaim(models.Model):
 
     product_selected_ids = fields.Many2many(
         'product.template', 'claim_ids',
-        string='Products in this Claim'
+        string='Products Already in this Claim'
     )

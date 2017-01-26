@@ -28,7 +28,7 @@ class CrmClaim(models.Model):
 
     def _inverse_set_delivery_products(self):
         if self.delivery_id:
-            self.product_selected_ids = self.product_selected_ids
+            self.product_selected_ids = self.product_selection_ids
         else:
             self.product_selected_ids = None
 

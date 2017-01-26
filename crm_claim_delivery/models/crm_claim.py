@@ -24,7 +24,7 @@ class CrmClaim(models.Model):
                 'delivery_id.move_lines.product_id'
             )
             products = pack_products | move_products
-            self.product_selection_ids  = products.mapped('product_tmpl_id').ids
+            self.product_selection_ids = products.mapped('product_tmpl_id').ids
 
     def _inverse_set_delivery_products(self):
         if self.delivery_id:
@@ -50,5 +50,5 @@ class CrmClaim(models.Model):
 
     product_selected_ids = fields.Many2many(
         'product.template', 'claim_ids',
-        string='Selected poducts Involved in this Claim',
-    ) 
+        string='Selected poducts Involved in this Claim'
+    )

@@ -10,5 +10,6 @@ class ProductTemplate(models.Model):
     claim_ids = fields.Many2many(
         'crm.claim', 'product_selected_ids',
         string='Claims associated to this product'
+    )
 
 

@@ -4,13 +4,11 @@
 from openerp import api, fields, models
 
 
-class product_product(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-
-    claim_ids = fields.One2many(
-        'crm.claim', 'product_id',
+    claim_ids = fields.Many2many(
+        'crm.claim', 'product_selection_id',
         string='Claims associated to this product'
+
     )
-
-

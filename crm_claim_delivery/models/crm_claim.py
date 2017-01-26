@@ -12,22 +12,26 @@ class CrmClaim(models.Model):
         return self.env['stock.picking.type'].search(
             [('code', '=', 'outgoing')]
         ).ids
-     
+
     @api.onchange('delivery_id')
-    def get_delivery_products(self):
-       if self.delivery_id:
-           products = []
-           packs = self.mapped('delivery_id.pack_operation_ids')
-           for pack in packs:
-               products.append(pack.product_id.id)
-           moves =  self.mapped('delivery_id.move_lines')
-           for move in moves:
-               products.append(move.product_id.id)
-           self.product_selection = self.env['product.product'].browse(
-               list(set(products))
-           ) 
-           self.product_id = self.env['product.product'].browse([])
-           
+    def _compute_get_delivery_products(self):
+        if self.delivery_id:
+            products = []
+            pack_products = self.mapped(
+                'delivery_id.pack_operation_ids.product_id'
+            )
+            move_products =  self.mapped(
+                'delivery_id.move_lines.product_id'
+            )
+            products = pack_products | move_products
+            self.product_selection_ids  = products.mapped('product_tmpl_id').ids
+
+    def _inverse_set_delivery_products(self):
+        if self.delivery_id:
+            self.product_selection_ids = self.product_selection_ids
+        else:
+            self.product_selection_ids = None
+
 
     delivery_id = fields.Many2one(
         'stock.picking',
@@ -36,14 +40,9 @@ class CrmClaim(models.Model):
             'picking_type_id', 'in', self.get_delivery_pickings())]
     )
 
-    product_selection = fields.Many2one(
-        'product.product',
-        string='product',
-        compute='get_delivery_products',
+    product_selection_ids = fields.Many2many(
+        'product.template', 'claim_ids',
+        string='Select Products Involved in this Claim',
+        compute='_compute_get_delivery_products',
+        inverse='_inverse_set_delivery_products'
     )
-
-    product_id = fields.Many2one(
-        'product.product',
-        string='Product Object of Claim',
-    )
-

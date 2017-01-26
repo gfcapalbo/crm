@@ -41,14 +41,10 @@ class CrmClaim(models.Model):
     )
 
     product_selection_ids = fields.Many2many(
-        'product.template',
+        'product.template', 'claim_ids',
         string='Select Products Involved in this Claim',
         compute='_compute_get_delivery_products',
         inverse='_inverse_set_delivery_products',
         store=False
     )
 
-    product_selected_ids = fields.Many2many(
-        'product.template', 'claim_ids',
-        string='Products Already in this Claim'
-    )

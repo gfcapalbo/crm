@@ -28,9 +28,9 @@ class CrmClaim(models.Model):
 
     def _inverse_set_delivery_products(self):
         if self.delivery_id:
-            self.product_selection_ids = self.product_selection_ids
+            self.product_selected_ids = self.product_selected_ids
         else:
-            self.product_selection_ids = None
+            self.product_selected_ids = None
 
 
     delivery_id = fields.Many2one(
@@ -41,8 +41,14 @@ class CrmClaim(models.Model):
     )
 
     product_selection_ids = fields.Many2many(
-        'product.template', 'claim_ids',
+        'product.template',
         string='Select Products Involved in this Claim',
         compute='_compute_get_delivery_products',
-        inverse='_inverse_set_delivery_products'
+        inverse='_inverse_set_delivery_products',
+        store=False
     )
+
+    product_selected_ids = fields.Many2many(
+        'product.template', 'claim_ids',
+        string='Selected poducts Involved in this Claim',
+    ) 

@@ -8,7 +8,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     claim_ids = fields.Many2many(
-        'crm.claim', 'product_selection_id',
+        'crm.claim', 'product_selected_ids',
         string='Claims associated to this product'
 
-    )
+

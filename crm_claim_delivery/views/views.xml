@@ -14,7 +14,7 @@
                             attrs = "{'invisible': [('delivery_id', '=', False)]}"
                             name = "%(crm_claim_delivery.claim_delivery_act)d"
                             string = "Select products"/>
-                        <group>
+                        <group col="1" colspan="4">
                             <field name="product_selected_ids"  readonly="1" />
                     </group>
                 </field>

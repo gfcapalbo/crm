@@ -8,12 +8,12 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Add Products">
-                    <group col="2" colspan="2">
-                        <field name="product_id" domain="[('id', 'in', 'product_selection_ids')]"/>
+                    <group col="1" colspan="4">
+                        <field name="product_id" domain="[('id', 'in', context.get('product_selection_domain', [] ))]"/>
                     </group>
                     <footer>
                         <button special="cancel" string="Cancel" icon="gtk-cancel"/>
-                        <button name="save" string="select"  type="object"/>
+                        <button name="save" string="Add Selected Product" type="object"/>
                     </footer>
                 </form>
             </field>

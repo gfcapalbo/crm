@@ -29,40 +29,39 @@ class ClaimDeliveryWizard(models.TransientModel):
        'stock.picking', string="Delivery"
     )
 
+    product_selection_domain =  fields.Many2many('product.template')
+
     @api.multi
-    def _get_delivery_products(self):
-        if self.delivery_id:
+    def _get_delivery_products(self, res={}):
+        if res.get('delivery_id', False):
             products = []
-            pack_products = self.mapped(
-                'delivery_id.pack_operation_ids.product_id'
+            delivery_model = self.env['stock.picking']
+            delivery = delivery_model.browse(res['delivery_id'])
+            pack_products = delivery.mapped(
+                'pack_operation_ids.product_id'
             )
-            move_products =  self.mapped(
-                'delivery_id.move_lines.product_id'
+            move_products = delivery.mapped(
+                'move_lines.product_id'
             )
             products = pack_products | move_products
             return products.mapped('product_tmpl_id').ids
         return []
 
-    product_selection_domain = fields.Many2many(
-        'product.template',
-        compute='_compute_get_delivery_products',
-    )
 
     @api.model
     def default_get(self, fields_list):
-        result = {}
-        result = super(ClaimDeliveryWizard, self).default_get(
+        res = {}
+        res = super(ClaimDeliveryWizard, self).default_get(
             fields_list=fields_list
         )
         claim_model = self.env['crm.claim']
         claimID = self.env.context.get("active_ids", False)
         if claimID:
             claim = claim_model.browse(claimID[0])
-            result['product_selection_domain'] = self.product_selection_domain
-            result["claim_id"] = claim.id
-            if claim:
-                result['delivery_id'] = claim.delivery_id.id
-        return result
+            res['claim_id'] = claim.id
+            res['delivery_id'] = claim.delivery_id.id
+            res['product_selection_domain'] = self._get_delivery_products(res)
+        return res
 
     @api.multi
     def save(self):

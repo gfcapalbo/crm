@@ -15,7 +15,7 @@
                             name = "%(crm_claim_delivery.claim_delivery_act)d"
                             string = "Select products"/>
                         <group col="1" colspan="4">
-                            <field name="product_selected_ids"  readonly="1" />
+                            <field name="product_selected_ids" />
                     </group>
                 </field>
             </field>

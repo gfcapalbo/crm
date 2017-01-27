@@ -60,7 +60,7 @@ class ClaimDeliveryWizard(models.TransientModel):
             claim = claim_model.browse(claimID[0])
             res['claim_id'] = claim.id
             res['delivery_id'] = claim.delivery_id.id
-            self.product_selection_domain = self._get_delivery_products(res)
+            res['product_selection_domain'] = self._get_delivery_products(res)
         return res
 
     @api.multi

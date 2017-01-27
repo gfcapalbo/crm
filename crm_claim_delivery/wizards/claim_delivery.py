@@ -16,6 +16,9 @@ class ClaimDeliveryWizard(models.TransientModel):
     product_id = fields.Many2one(
         "product.template",
         string="product",
+        domain=lambda self: [(
+            'id',  'in', self._get_delivery_products()
+        )]
     )
 
     claim_id = fields.Many2one(
@@ -26,8 +29,25 @@ class ClaimDeliveryWizard(models.TransientModel):
        'stock.picking', string="Delivery"
     )
 
-    product_selection = fields.Char()
-    
+    @api.multi
+    def _get_delivery_products(self):
+        if self.delivery_id:
+            products = []
+            pack_products = self.mapped(
+                'delivery_id.pack_operation_ids.product_id'
+            )
+            move_products =  self.mapped(
+                'delivery_id.move_lines.product_id'
+            )
+            products = pack_products | move_products
+            return products.mapped('product_tmpl_id').ids
+        return []
+
+    product_selection_domain = fields.Many2many(
+        'product.template',
+        compute='_compute_get_delivery_products',
+    )
+
     @api.model
     def default_get(self, fields_list):
         result = {}
@@ -38,8 +58,7 @@ class ClaimDeliveryWizard(models.TransientModel):
         claimID = self.env.context.get("active_ids", False)
         if claimID:
             claim = claim_model.browse(claimID[0])
-            result['product_selected_ids'] = claim.product_selected_ids.ids
-            result['product_selection'] = claim.product_selection_ids
+            result['product_selection_domain'] = self.product_selection_domain
             result["claim_id"] = claim.id
             if claim:
                 result['delivery_id'] = claim.delivery_id.id

@@ -8,8 +8,6 @@
             <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
             <field name="arch" type="xml">
                 <field name="date" position="after">
-
-                            <field name="product_selection_ids" />
                     <field name="delivery_id" />
                         <button 
                             type="action" 

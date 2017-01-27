@@ -15,10 +15,7 @@ class ClaimDeliveryWizard(models.TransientModel):
 
     product_id = fields.Many2one(
         "product.template",
-        string="product",
-        domain=lambda self: [(
-            'id',  'in', self._get_delivery_products()
-        )]
+        string="product"
     )
 
     claim_id = fields.Many2one(

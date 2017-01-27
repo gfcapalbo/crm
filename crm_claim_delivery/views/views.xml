@@ -9,13 +9,22 @@
             <field name="arch" type="xml">
                 <field name="date" position="after">
                     <field name="delivery_id" />
+                    <group col="1" colspan="4">
+                        <field 
+                            name="product_selected_ids" 
+                            options="{'no_create': True}" 
+                            >
+                            <tree create="false">
+                                <field name="default_code"/>
+                                <field name="name"/>
+                                <field name="description"/>
+                            </tree>
+                        </field>
                     <button 
                         type="action" 
                         attrs = "{'invisible': [('delivery_id', '=', False)]}"
                         name = "%(crm_claim_delivery.claim_delivery_act)d"
-                        string = "Select products"/>
-                    <group col="1" colspan="4">
-                        <field name="product_selected_ids" />
+                        string = "Add Products to claim"/>
                     </group>
                 </field>
             </field>
@@ -31,8 +40,19 @@
                             <field name="claim_ids"/>
                         </group>
                     </page>
+
+                </xpath>
+                <xpath expr="//div[@name='buttons']" position="inside">
+                    <button class="oe_inline oe_stat_button" name="action_view_claims" 
+                        type="object" icon="fa-wrench">
+                        <field string="Claims" name="total_claims" widget="statinfo" />
+                    </button>
                 </xpath>
             </field>
         </record>
+
+        <!--
+            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
+-->
     </data>
 </openerp>

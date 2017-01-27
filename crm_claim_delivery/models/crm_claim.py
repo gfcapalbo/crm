@@ -26,6 +26,9 @@ class CrmClaim(models.Model):
     )
 
     product_selected_ids = fields.Many2many(
-        'product.template', 'claim_ids',
+        comodel_name='product.template',
+        relation="product_selected_claim_rel",
+        column1='product_id',
+        column2='claim_ids',
         string='Products Already in this Claim'
     )

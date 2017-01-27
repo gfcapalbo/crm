@@ -7,11 +7,6 @@ from openerp import api, fields, models
 class CrmClaim(models.Model):
     _inherit = 'crm.claim'
 
-    @api.model
-    def get_delivery_pickings(self):
-        return self.env['stock.picking.type'].search(
-            [('code', '=', 'outgoing')]
-        ).ids
 
     @api.onchange('delivery_id')
     def _compute_get_delivery_products(self):
@@ -24,14 +19,18 @@ class CrmClaim(models.Model):
                 'delivery_id.move_lines.product_id'
             )
             products = pack_products | move_products
-            self.product_selection_ids = products.mapped('product_tmpl_id').ids
+            self.product_selection_ids = str(
+                products.mapped('product_tmpl_id').ids
+            )
+            #If you change delivery delete all selected prds
+            self.write({'product_selected_ids': [(5)]})
 
-    def _inverse_set_delivery_products(self):
-        if self.delivery_id:
-            self.product_selected_ids = self.product_selection_ids
-        else:
-            self.product_selected_ids = None
 
+    @api.model
+    def get_delivery_pickings(self):
+        return self.env['stock.picking.type'].search(
+            [('code', '=', 'outgoing')]
+        ).ids
 
     delivery_id = fields.Many2one(
         'stock.picking',
@@ -39,12 +38,11 @@ class CrmClaim(models.Model):
         domain=lambda self: [(
             'picking_type_id', 'in', self.get_delivery_pickings())]
     )
-
-    product_selection_ids = fields.Many2many(
-        'product.template', 'claim_ids',
-        string='Select Products Involved in this Claim',
+    product_selection_ids = fields.Char(
         compute='_compute_get_delivery_products',
-        inverse='_inverse_set_delivery_products',
-        store=False
     )
 
+    product_selected_ids = fields.Many2many(
+        'product.template', 'claim_ids',
+        string='Products Already in this Claim'
+    )

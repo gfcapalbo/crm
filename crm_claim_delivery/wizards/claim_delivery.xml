@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Proposal purchase -->
+        <record id="wizard_select_product" model="ir.ui.view">
+            <field name="name">Select Product</field>
+            <field name="model">crm.delivery_wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Add Products">
+                    <group col="2" colspan="2">
+                        <field name="product_id" domain="[('id', 'in', 'product_selection_ids')]"/>
+                    </group>
+                    <footer>
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="save" string="select"  type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="claim_delivery_act"
+            model="ir.actions.act_window" >
+            <field name="type">ir.actions.act_window</field>
+            <field name="name">select_products</field>
+            <field name="view_type">form</field>
+            <field name="res_model">crm.delivery_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_select_product"/>
+            <field name ="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -15,8 +15,8 @@ class ProductTemplate(models.Model):
     claim_ids = fields.Many2many(
         comodel_name='crm.claim',
         relation="product_selected_claim_rel",
-        column1='product_id',
-        column2='claim_ids',
+        column1='claim_ids',
+        column2='product_id',
         string='Claims associated to this product'
     )
     total_claims = fields.Integer(

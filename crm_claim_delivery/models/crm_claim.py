@@ -9,7 +9,7 @@ class CrmClaim(models.Model):
 
     @api.onchange('delivery_id')
     def clean_selected(self):
-        #If you change delivery delete all selected prds
+        # If you change delivery delete all selected prds
         self.write({'product_selected_ids': [(5)]})
 
     @api.model

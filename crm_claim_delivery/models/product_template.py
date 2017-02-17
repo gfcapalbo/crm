@@ -8,9 +8,9 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     def find_ids(self):
-        res=[]
+        res = []
         for claim in self.env['crm.claim'].search(
-               [('product_selected_ids', '!=' , False)]):
+               [('product_selected_ids', '!=', False)]):
             if self.id in claim.product_selected_ids.ids:
                 res.append(claim.id)
         return res
@@ -19,7 +19,7 @@ class ProductTemplate(models.Model):
     def get_claims(self):
         res = self.find_ids()
         self.claim_ids = res
-        self.total_claims =  len(res)
+        self.total_claims = len(res)
 
     def get_claims_for_domain(self):
         res = self.find_ids()
@@ -28,10 +28,9 @@ class ProductTemplate(models.Model):
     claim_ids = fields.One2many(
         'crm.claim',
         string='Claims associated to this product',
-        compute= 'get_claims',
+        compute='get_claims',
         store=False
     )
-
     total_claims = fields.Integer(
         compute='get_claims',
         store=False
@@ -43,5 +42,6 @@ class ProductTemplate(models.Model):
         result = template_model._get_act_window_dict(
             'crm_claim.crm_case_categ_claim0'
         )
-        result['domain'] = "[('id','in', %s   )]" % self.get_claims_for_domain()
+        result['domain'] = \
+            "[('id', 'in', %s)]" % self.get_claims_for_domain()
         return result

@@ -7,32 +7,20 @@ from openerp import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    def find_ids(self):
-        res = []
-        for claim in self.env['crm.claim'].search(
-               [('product_selected_ids', '!=', False)]):
-            if self.id in claim.product_selected_ids.ids:
-                res.append(claim.id)
-        return res
-
     @api.multi
-    def get_claims(self):
-        res = self.find_ids()
-        self.claim_ids = res
-        self.total_claims = len(res)
+    def _get_total_claims(self):
+        for this in self:
+            this.total_claims = len(this.claim_ids)
 
-    def get_claims_for_domain(self):
-        res = self.find_ids()
-        return res
-
-    claim_ids = fields.One2many(
-        'crm.claim',
-        string='Claims associated to this product',
-        compute='get_claims',
-        store=False
+    claim_ids = fields.Many2many(
+        comodel_name='crm.claim',
+        relation="product_selected_claim_rel",
+        column1='product_id',
+        column2='claim_ids',
+        string='Claims associated to this product'
     )
     total_claims = fields.Integer(
-        compute='get_claims',
+        compute='_get_total_claims',
         store=False
     )
 
@@ -42,6 +30,5 @@ class ProductTemplate(models.Model):
         result = template_model._get_act_window_dict(
             'crm_claim.crm_case_categ_claim0'
         )
-        result['domain'] = \
-            "[('id', 'in', %s)]" % self.get_claims_for_domain()
+        result['domain'] = "[('id', 'in', %s)]" % self.claim_ids
         return result

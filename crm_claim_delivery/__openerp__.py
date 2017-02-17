@@ -15,8 +15,8 @@
     "data": [
         'data/crm_claim_type.xml',
         'wizards/claim_delivery.xml',
-        'views/views.xml',
-        'security/ir.model.access.csv',
+        'views/crm_claim.xml',
+        'views/product_template.xml',
     ],
     "installable": True,
 }

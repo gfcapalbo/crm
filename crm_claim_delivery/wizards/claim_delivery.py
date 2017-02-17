@@ -1,26 +1,19 @@
 # -*- coding: utf-8 -*-
 # © 2016 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
-from datetime import date, datetime
 from openerp import api, fields, models
-from openerp.tools import float_round
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDF
 
 
 class ClaimDeliveryWizard(models.TransientModel):
-
     _name = "crm.delivery_wizard"
     _description = "wizard choose products"
 
     claim_id = fields.Many2one(
         'crm.claim', string="Claim"
     )
-
     delivery_id = fields.Many2one(
        'stock.picking', string="Delivery"
     )
-
     product_id = fields.Many2one(
         "product.template",
         string="product",
@@ -34,7 +27,6 @@ class ClaimDeliveryWizard(models.TransientModel):
             products = []
             claimID = self.env.context.get("active_ids", False)[0]
             claim = self.env['crm.claim'].browse(claimID)
-            delivery_model = self.env['stock.picking']
             delivery = claim.delivery_id
             pack_products = delivery.mapped(
                 'pack_operation_ids.product_id'
@@ -57,17 +49,13 @@ class ClaimDeliveryWizard(models.TransientModel):
         if claimID:
             claim = claim_model.browse(claimID[0])
             res['claim_id'] = claim.id
-            self.write({'claim_id' : claim.id})
+            self.write({'claim_id': claim.id})
             res['delivery_id'] = claim.delivery_id.id
         return res
 
     @api.multi
     def save(self):
         self.claim_id.write(
-            {'product_selected_ids':[(4,self.product_id.id)]}
+            {'product_selected_ids': [(4, self.product_id.id)]}
         )
         return True
-
-
-
-

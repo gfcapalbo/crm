@@ -24,7 +24,6 @@ class CrmClaim(models.Model):
         domain=lambda self: [(
             'picking_type_id', 'in', self.get_delivery_pickings())]
     )
-
     product_selected_ids = fields.Many2many(
         comodel_name='product.template',
         relation="product_selected_claim_rel",

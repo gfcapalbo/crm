@@ -33,7 +33,7 @@ class ProductTemplate(models.Model):
     )
     total_claims = fields.Integer(
         compute='_get_total_claims',
-        store=False
+        store=True,
     )
 
     @api.multi

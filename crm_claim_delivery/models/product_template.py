@@ -27,5 +27,5 @@ class ProductTemplate(models.Model):
         template_model = self.env['product.template']
         result = template_model._get_act_window_dict(
             'crm_claim.crm_case_categ_claim0')
-        result['domain'] = "[('id', 'in', %s)]" % self.claim_ids
+        result['domain'] = "[('id', 'in', %s)]" % self.claim_ids.ids
         return result

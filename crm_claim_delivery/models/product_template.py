@@ -7,7 +7,6 @@ from openerp import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    @api.multi
     @api.depends('claim_ids')
     def _get_total_claims(self):
         for this in self:

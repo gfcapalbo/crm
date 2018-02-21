@@ -8,6 +8,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     @api.multi
+    @api.depends('claim_ids')
     def _get_total_claims(self):
         for this in self:
             this.total_claims = len(this.claim_ids)

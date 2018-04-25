@@ -18,6 +18,7 @@ class ProductTemplate(models.Model):
         relation="product_selected_claim_rel",
         column1='claim_ids',
         column2='product_id',
+        copy=False,
         string='Claims associated to this product')
     total_claims = fields.Integer(
         compute='_get_total_claims',

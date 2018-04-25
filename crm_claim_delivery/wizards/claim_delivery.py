@@ -1,32 +1,23 @@
 # -*- coding: utf-8 -*-
-# © 2016 Therp BV <http://therp.nl>
+# Copyright 2017-2018 Therp BV <https://therp.nl>.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
-from datetime import date, datetime
 from openerp import api, fields, models
-from openerp.tools import float_round
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDF
 
 
 class ClaimDeliveryWizard(models.TransientModel):
-
     _name = "crm.delivery_wizard"
     _description = "wizard choose products"
 
     claim_id = fields.Many2one(
-        'crm.claim', string="Claim"
-    )
-
+        'crm.claim',
+        string="Claim")
     delivery_id = fields.Many2one(
-       'stock.picking', string="Delivery"
-    )
-
+        'stock.picking',
+        string="Delivery")
     product_id = fields.Many2one(
         "product.template",
         string="product",
-        domain=lambda self: [(
-            "id", "in", self.get_products())]
-    )
+        domain=lambda self: [("id", "in", self.get_products())])
 
     @api.multi
     def get_products(self):
@@ -34,14 +25,11 @@ class ClaimDeliveryWizard(models.TransientModel):
             products = []
             claimID = self.env.context.get("active_ids", False)[0]
             claim = self.env['crm.claim'].browse(claimID)
-            delivery_model = self.env['stock.picking']
             delivery = claim.delivery_id
             pack_products = delivery.mapped(
-                'pack_operation_ids.product_id'
-            )
+                'pack_operation_ids.product_id')
             move_products = delivery.mapped(
-                'move_lines.product_id'
-            )
+                'move_lines.product_id')
             products = pack_products | move_products
             return products.mapped('product_tmpl_id').ids
         return []
@@ -50,24 +38,18 @@ class ClaimDeliveryWizard(models.TransientModel):
     def default_get(self, fields_list):
         res = {}
         res = super(ClaimDeliveryWizard, self).default_get(
-            fields_list=fields_list
-        )
+            fields_list=fields_list)
         claim_model = self.env['crm.claim']
         claimID = self.env.context.get("active_ids", False)
         if claimID:
             claim = claim_model.browse(claimID[0])
             res['claim_id'] = claim.id
-            self.write({'claim_id' : claim.id})
+            self.write({'claim_id': claim.id})
             res['delivery_id'] = claim.delivery_id.id
         return res
 
     @api.multi
     def save(self):
-        self.claim_id.write(
-            {'product_selected_ids':[(4,self.product_id.id)]}
-        )
+        self.claim_id.write({
+            'product_selected_ids': [(4, self.product_id.id)]})
         return True
-
-
-
-

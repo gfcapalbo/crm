@@ -20,7 +20,6 @@ On the product form we will see all claims connected with that product
 with associated delivery and claim date in the tab "Claims".
 
 
-
 Bug Tracker
 ===========
 
@@ -35,14 +34,21 @@ Credits
 Images
 ------
 
-* Odoo Community Association: `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
+* Odoo Community Association:
+    `Icon <https://github.com/OCA/maintainer-tools/blob/master/template/module/static/description/icon.svg>`_.
 
 Contributors
 ------------
 
 * Giovanni Francesco Capalbo <giovanni@therp.nl>  
+* Ronald Portier <ronald@therp.nl>  
 
-Do not contact contributors directly about help with questions or problems concerning this addon, but use the `community mailing list <mailto:community@mail.odoo.com>`_ or the `appropriate specialized mailinglist <https://odoo-community.org/groups>`_ for help, and the bug tracker linked in `Bug Tracker`_ above for technical issues.
+Do not contact contributors directly about help with questions or problems
+concerning this addon, but use the
+`community mailing list <mailto:community@mail.odoo.com>`_ or the
+`appropriate specialized mailinglist <https://odoo-community.org/groups>`_
+for help, and the bug tracker linked in `Bug Tracker`_ above for technical
+issues.
 
 Maintainer
 ----------

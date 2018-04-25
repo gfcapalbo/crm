@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# © 2017 Therp BV <http://therp.nl>
+# Copyright 2017-2018 Therp BV <https://therp.nl>.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
     "name": "Claims for deliveries",
@@ -15,8 +15,8 @@
     "data": [
         'data/crm_claim_type.xml',
         'wizards/claim_delivery.xml',
-        'views/views.xml',
-        'security/ir.model.access.csv',
+        'views/crm_claim.xml',
+        'views/product_template.xml',
     ],
     "installable": True,
 }

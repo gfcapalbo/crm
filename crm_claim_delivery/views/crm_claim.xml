@@ -5,7 +5,10 @@
         <record model="ir.ui.view" id="crm_claim_inherit">
             <field name="name">Claim Form delivery extension</field>
             <field name="model">crm.claim</field>
-            <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
+            <field
+                name="inherit_id"
+                ref="crm_claim.crm_case_claims_form_view"
+                />
             <field name="arch" type="xml">
                 <field name="date" position="after">
                     <field name="delivery_id" />
@@ -29,30 +32,6 @@
                 </field>
             </field>
         </record>
-        <record model="ir.ui.view" id="product_template_form_claim_inherit">
-            <field name="name">Claim Product Form extension</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_only_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//page[@string='Inventory']" position="after">
-                    <page string="Claims">
-                        <group name="Claims" string="Claims" >
-                            <field name="claim_ids"/>
-                        </group>
-                    </page>
 
-                </xpath>
-                <xpath expr="//div[@name='buttons']" position="inside">
-                    <button class="oe_inline oe_stat_button" name="action_view_claims" 
-                        type="object" icon="fa-wrench">
-                        <field string="Claims" name="total_claims" widget="statinfo" />
-                    </button>
-                </xpath>
-            </field>
-        </record>
-
-        <!--
-            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
--->
     </data>
 </openerp>
